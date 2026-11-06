@@ -1,0 +1,183 @@
+<!--
+  MODÈLE DE CLAUDE.md
+  Mode d'emploi : copie ce fichier à la racine de ton projet sous le nom CLAUDE.md,
+  remplace chaque <…>, supprime les sections qui ne te concernent pas.
+  Les commentaires comme celui-ci expliquent POURQUOI chaque section existe.
+  Tu peux les garder (l'agent les lit aussi) ou les effacer une fois le fichier rempli.
+
+  Règle générale : ce fichier est lu à CHAQUE conversation. Tout ce qui y est coûte
+  du contexte à chaque fois. Écris ce que l'agent ne peut pas deviner en lisant le code,
+  pas ce qu'il trouverait tout seul en deux secondes.
+-->
+
+# <Nom du projet> : instructions pour l'agent
+
+## Projet
+
+<!--
+  POURQUOI : sans ça, l'agent devine le métier à partir des noms de fichiers.
+  Deux ou trois phrases. Qui sont les utilisateurs, ce qu'ils font, comment le produit gagne de l'argent.
+-->
+
+<Nom du projet> est <une plateforme / une app / un outil> qui <verbe> <qui> avec <qui>.
+Les <utilisateurs de type A> <font quoi>. Les <utilisateurs de type B> <font quoi>.
+Le produit <comment la valeur est créée ou mesurée>.
+
+## Documentation à lire avant de coder
+
+<!--
+  POURQUOI : la spec vit dans le repo, pas dans ta tête ni dans un chat (règle 1).
+  Liste courte, avec le rôle de chaque document. L'agent ira les lire quand il en aura besoin.
+-->
+
+- `docs/<PRD>.md` : le périmètre produit, les parcours, les décisions.
+- `docs/<FICHE_TECHNIQUE>.md` : l'architecture, le modèle de données, l'API.
+- `docs/DECISIONS.md` : le journal des décisions. Une décision tranchée ne se rouvre pas sans raison écrite.
+
+## Stack technique
+
+<!--
+  POURQUOI : évite que l'agent ajoute une deuxième librairie qui fait la même chose que la première.
+-->
+
+| Composant | Technologie |
+|---|---|
+| Frontend | <framework + langage> |
+| Backend | <framework + hébergeur> |
+| Base de données | <moteur + hébergeur> |
+| Auth | <solution> |
+| E-mails | <service> |
+| Paiements | <service, ou « aucun »> |
+
+## Structure du dépôt
+
+<!--
+  POURQUOI : l'agent sait où ranger un nouveau fichier sans en créer un dossier parallèle.
+-->
+
+```
+<racine>/
+├── <dossier front>/     # <rôle>
+├── <dossier back>/      # <rôle>
+├── <dossier partagé>/   # types et utilitaires communs
+├── <dossier migrations>/
+├── docs/
+└── CLAUDE.md            # ce fichier
+```
+
+## Conventions
+
+<!--
+  POURQUOI : des règles simples, vérifiables, que l'agent applique sans réfléchir.
+  Préfère « toujours X » à « essaie de faire X ».
+-->
+
+- **Langue du code** : anglais (variables, fonctions, commentaires, commits).
+- **Langue de l'interface** : <français>.
+- **Nommage** : fichiers en `kebab-case`, types en `PascalCase`, fonctions en `camelCase`, constantes en `UPPER_SNAKE_CASE`.
+- **Validation** : toute entrée d'API passe par <librairie de validation>.
+- **Migrations** : un fichier par changement, nommé `<AAAAMMJJHHMMSS>_<description>`, avec la procédure de retour arrière écrite en commentaire à la fin.
+- **Commits** : <Conventional Commits>, un commit par changement cohérent, fichiers ajoutés un par un (jamais `git add -A`).
+
+## Règles métier critiques
+
+<!--
+  POURQUOI : c'est la section la plus importante. Ce sont les règles qui, cassées, coûtent
+  de l'argent ou de la confiance. Numérote-les : l'agent et toi pourrez dire « ça viole la règle 3 ».
+  Écris la règle ET la raison. Une règle sans raison se fait contourner par un agent « malin ».
+  Les deux premières sont des exemples à adapter : garde l'idée, remplace le contenu.
+-->
+
+1. **<Calcul d'argent ou de quota>** : chaque passage calcule un **écart**, pas un total. `à verser = dû au total − déjà versé`. « Déjà versé » compte aussi les lignes annulées. Le total reste plafonné par <plafond 1> et <plafond 2>.
+2. **L'idempotence est arithmétique, pas dans un drapeau.** C'est l'écart de la règle 1 qui garantit qu'un second passage ne crédite rien. Un champ « déjà traité le » sert au plus à répartir le travail, jamais à empêcher un double paiement. Si tu crois avoir trouvé un verrou, cite la ligne qui le prouve.
+3. **<Objet supprimé côté utilisateur>** → <statut>. Ce qui a déjà été <payé / validé> n'est **pas** annulé, sauf action manuelle d'un admin.
+4. **<Connexion expirée>** → <statut gelé>, pas <statut refusé>. Ça reprend tout seul après reconnexion.
+5. **<Unicité>** : un <objet> ne peut appartenir qu'à un seul <conteneur>.
+6. **<Règle suivante>** : <règle>. Raison : <pourquoi>.
+
+## Sécurité
+
+<!--
+  POURQUOI : l'agent écrit du code qui manipule des secrets et des données personnelles.
+  Il doit savoir ce qui est interdit avant d'écrire la première ligne.
+-->
+
+- Ne jamais logger un token, un mot de passe ou un e-mail en clair.
+- Les secrets vivent dans les variables d'environnement, jamais dans le code ni dans ce fichier.
+- Les droits d'accès se testent avec de vrais comptes de test (un par rôle), pas en lisant le code.
+- <Données sensibles du projet> : chiffrées avec <méthode>, module `<chemin du module>`.
+- Limites de débit : <action> <N> fois par <période> et par <utilisateur>.
+
+## Variables d'environnement
+
+<!--
+  POURQUOI : l'agent doit connaître les NOMS pour écrire le code, jamais les VALEURS.
+  Ne mets aucune valeur ici. Ce fichier part dans le dépôt.
+-->
+
+Liste complète dans `.env.example`. Les critiques :
+
+- `<NOM_DE_LA_VARIABLE_BASE>` : connexion à la base.
+- `<NOM_DE_LA_CLE_DE_CHIFFREMENT>` : clé de chiffrement.
+- `<NOM_DU_MODE_SIMULATION>` : `true` pour simuler <service externe> en développement.
+
+## Commandes de vérification
+
+<!--
+  POURQUOI : règle 3, « un fait se cite ». L'agent ne dit pas « les tests passent »,
+  il lance une de ces commandes et colle la sortie. Si une commande n'est pas ici, il l'invente.
+-->
+
+```bash
+<commande d'installation>      # installer les dépendances
+<commande de dev>              # lancer en local
+<commande de lint>             # style et erreurs simples
+<commande de typecheck>        # types
+<commande de test>             # tests
+<commande de build>            # compilation complète
+<commande de migration>        # appliquer les migrations
+```
+
+Avant de dire « fini » : lint, typecheck et tests des parties touchées, au vert, sortie citée.
+
+## Pièges connus de ce dépôt
+
+<!--
+  POURQUOI : chaque piège payé une fois ne doit pas l'être deux fois. Ajoute une ligne
+  dès qu'un défaut arrive pour la deuxième fois : une erreur vue deux fois est une règle qui manque.
+  Les exemples ci-dessous sont réels et fréquents, garde ceux qui s'appliquent à ta stack.
+-->
+
+- Une requête de lecture sans pagination est plafonnée à <N> lignes **sans erreur**. Pagine ou agrège.
+- Le client de base de données ne lève pas d'exception : il faut lire le champ d'erreur à chaque appel.
+- La variable qui dit « production » vaut aussi « production » sur la préprod. C'est `<variable d'environnement applicatif>` qui tranche.
+- Les tests simulent la base : une fonction SQL n'est jamais exécutée par eux. Elle se prouve sur une vraie base, dans une transaction annulée.
+- Le code se déploie tout seul, **le schéma de base non**. Les migrations passent avant le merge, à la main, et on vérifie leur effet.
+- <Piège suivant>.
+
+## Backlog : convention anti-dérive
+
+<!--
+  POURQUOI : le ticket vit dans l'outil de backlog (règle 1). Si les statuts mentent,
+  tu pilotes à l'aveugle. Ces règles empêchent le board de diverger du réel.
+-->
+
+Le backlog vit dans <ton outil de backlog>. Champs utilisés par l'agent : `<Statut>`, `<Lien PR>`, `<Identifiant ticket>`, `<Priorité>`.
+
+- **PR fusionnée** sur `<branche principale>` → ticket en `<Terminé>` + lien de la PR dans `<Lien PR>`.
+- **Livré en partie** → `<Terminé>` + un ticket neuf pour le reste. Jamais de « presque fini » qui traîne.
+- **Abandonné** → `<Bloqué>`, pas supprimé. On garde la trace.
+- **Ne jamais renommer ni supprimer une valeur de statut** : des outils les lisent par leur nom, et ils casseraient sans prévenir.
+- **On n'estime et on ne date jamais en rattrapage.** Un champ vide veut dire « pas mesuré ». C'est une information. Le remplir après coup fabrique des chiffres faux.
+
+## Comment l'agent travaille ici
+
+<!--
+  POURQUOI : les règles 2 et 4 de la méthode, écrites là où l'agent les lit.
+-->
+
+- Un ticket = une branche = une conversation neuve.
+- Lire le code concerné **avant** de proposer quoi que ce soit. Beaucoup de tickets sont déjà faits en partie.
+- Poser les questions produit et **attendre la réponse** avant de coder. Ne jamais deviner un arbitrage.
+- Tout fait énoncé dans un commentaire, un résumé ou une PR cite `fichier:ligne`, une commande ou un lien. Sinon il disparaît.
+- L'agent ne fusionne pas, ne déploie pas en prod et n'applique pas de migration en prod sans un « go » explicite de <ton prénom>.
