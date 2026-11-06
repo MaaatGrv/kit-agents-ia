@@ -13,6 +13,7 @@ Tous les liens ont été vérifiés le 6 novembre 2026. La plupart sont en angla
 ## Ce qu'en disent les praticiens
 
 - [Harness engineering for coding agent users](https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html) (Birgitta Böckeler, martinfowler.com). « Agent = Model + Harness » : des guides avant l'action, des capteurs après.
+- [Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/) (Ryan Lopopolo, OpenAI). « Humans steer. Agents execute. » Un AGENTS.md court comme carte, le dépôt comme seule source de vérité.
 - [My AI Adoption Journey](https://mitchellh.com/writing/my-ai-adoption-journey) (Mitchell Hashimoto). Six étapes, dont « Engineer the Harness » : chaque erreur de l'agent devient une règle.
 - [Vibe engineering](https://simonwillison.net/2025/Oct/7/vibe-engineering/) (Simon Willison). La différence entre laisser faire l'IA et rester responsable du code : tests, revue, preview.
 - [Designing agentic loops](https://simonwillison.net/2025/Sep/30/designing-agentic-loops/) (Simon Willison). Un agent, ce sont des outils en boucle vers un but. Et comment limiter les dégâts.
