@@ -6,6 +6,8 @@ Ce kit, c'est ce harness, en version de poche. Des fichiers à copier dans ton p
 
 Il vient d'un retour d'expérience réel : un an à construire une plateforme qui met en relation des marques et des créateurs de contenu, payés à la performance, avec des agents IA qui écrivent l'essentiel du code. Les pièges racontés dans ces fichiers sont arrivés pour de vrai.
 
+Les slides de la masterclass sont dans [deck-masterclass.pdf](deck-masterclass.pdf).
+
 ## Pour qui
 
 - **Tu ne codes pas, ou peu.** Tu veux piloter un agent sans te faire balader. Commence par la [checklist des portes humaines](checklist-portes-humaines.md) : c'est elle qui te protège.
